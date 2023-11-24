@@ -1,3 +1,26 @@
 <h2>{{ post.title }}</h2>
 <p>{{ post.content|safe }}</p>
 <p>{{ post.date_posted|date:"d M Y" }}</p>
+
+{% for comment in comments %}
+    <p>{{ comment.author.username }}: {{ comment.text }}</p>
+{% endfor %}
+
+<a href="{% url 'comment_new' post.pk %}">Novo comentário</a>
+
+{% for category in categories %}
+    <p>{{ category.name }}</p>
+{% endfor %}
+
+ <!-- Adiciona um loop no template de listagem de posts para exibir as categorias de cada post-->
+{% for post in posts %}
+<div class="post">
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.content }}</p>
+    <p>Categorias: 
+        {% for category in post.categories.all %}
+        <a href="{% url 'category_detail' category.id %}">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+</div>
+{% endfor %}
